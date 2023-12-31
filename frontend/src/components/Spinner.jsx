@@ -3,7 +3,7 @@ import GridLoader from 'react-spinners/GridLoader'
 
 const Spinner = () => {
   return (
-    <div>
+    <div className='flex justify-center items-center'>
       <GridLoader color='hsla(256, 67%, 53%, 1)' />
     </div>
   )

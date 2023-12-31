@@ -45,7 +45,7 @@ const Header = () => {
               {navList}
             </ul>
           </div>
-          <a className='text-2xl font-bold'>
+          <a className='text-2xl font-bold' href='/'>
             Quill<span className=' text-sky-600'>Quest</span>
           </a>
         </div>
