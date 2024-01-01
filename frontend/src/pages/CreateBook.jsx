@@ -17,8 +17,7 @@ const CreateBook = () => {
       .post(`http://localhost:5000/books`, data)
       .then(() => {
         setLoading(false)
-        navigate('/')
-        toast.success('🦄 Book Added Successfully', {
+        toast.success('Book Added Successfully', {
           position: 'top-center',
           autoClose: 5000,
           hideProgressBar: false,
@@ -28,6 +27,7 @@ const CreateBook = () => {
           progress: undefined,
           theme: 'colored',
         })
+        navigate('/')
       })
       .catch((error) => {
         setLoading(false)
@@ -40,7 +40,8 @@ const CreateBook = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <div className='px-4 py-20 flex justify-center items-center font-poppins'>
+        <div className='px-4 py-20 flex flex-col justify-center items-center font-poppins'>
+          <h3 className='text-2xl my-3'>Add New Book</h3>
           <div className='card shrink-0 w-full max-w-md shadow-2xl bg-white'>
             <form className='card-body'>
               <div className='form-control'>
@@ -74,7 +75,7 @@ const CreateBook = () => {
                   <span className='label-text text-base'>Published Year</span>
                 </label>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter the published Year'
                   className='input-bordered py-2 px-3 rounded-lg focus:outline-none border border-gray-300 leading-normal'
                   required

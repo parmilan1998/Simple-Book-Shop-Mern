@@ -4,13 +4,13 @@ const Header = () => {
   const navList = [
     <>
       <li className='text-base'>
-        <a>Home</a>
+        <a href='/'>Home</a>
       </li>
       <li className='text-base'>
-        <a>Store</a>
+        <a href='/books/create'>Add Book</a>
       </li>
       <li className='text-base'>
-        <a>Contact Us</a>
+        <a>About Us</a>
       </li>
       <li className='text-base'>
         <a>Blog</a>
@@ -18,7 +18,7 @@ const Header = () => {
     </>,
   ]
   return (
-    <div className='max-w-screen-2xl mx-auto lg:px-24 px-4 font-poppins bg-gray-100'>
+    <div className='max-w-screen-2xl mx-auto lg:px-24 px-4 font-poppins bg-sky-100 shadow-sm'>
       <div className='navbar'>
         <div className='navbar-start'>
           <div className='dropdown'>
