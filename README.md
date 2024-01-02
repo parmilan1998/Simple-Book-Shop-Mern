@@ -21,3 +21,5 @@
 ** 🌟Book Details🌟 **
 ![Details](https://github.com/parmilan1998/Simple-Book-Shop-Mern/assets/103124559/d43c6e09-27f7-42c8-81f7-1e236110fddb)
 
+** 🌟Delete Book🌟 **
+![Delete Book](https://github.com/parmilan1998/Simple-Book-Shop-Mern/assets/103124559/e47cba88-307a-4a7f-9e9b-c4c8266552d7)
