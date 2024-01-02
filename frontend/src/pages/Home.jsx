@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Spinner from '../components/Spinner'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { FaEdit } from 'react-icons/fa'
-import { BsInfoCircle } from 'react-icons/bs'
-import { MdDelete } from 'react-icons/md'
 import { IoMdAddCircleOutline } from 'react-icons/io'
 import BookTable from '../components/BookTable'
 import BookCard from '../components/BookCard'
@@ -34,13 +31,13 @@ const Home = () => {
       <div className='flex justify-center items-center gap-3'>
         <button
           onClick={() => setShowType('table')}
-          className='px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
+          className='lg:flex hidden px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
         >
           Table
         </button>
         <button
           onClick={() => setShowType('card')}
-          className='px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
+          className='lg:flex hidden px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
         >
           Card
         </button>

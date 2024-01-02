@@ -5,7 +5,7 @@ import Home from './pages/Home'
 import CreateBook from './pages/CreateBook'
 import UpdateBook from './pages/UpdateBook'
 import ShowBooks from './pages/ShowBooks'
-import DeleteBook from './pages/CreateBook'
+import DeleteBook from './pages/DeleteBook'
 
 const App = () => {
   return (

@@ -12,9 +12,6 @@ const Header = () => {
       <li className='text-base'>
         <a>About Us</a>
       </li>
-      <li className='text-base'>
-        <a>Blog</a>
-      </li>
     </>,
   ]
   return (
