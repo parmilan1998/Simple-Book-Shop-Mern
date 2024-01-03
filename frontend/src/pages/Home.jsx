@@ -31,13 +31,13 @@ const Home = () => {
       <div className='flex justify-center items-center gap-3'>
         <button
           onClick={() => setShowType('table')}
-          className='lg:flex hidden px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
+          className='px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
         >
           Table
         </button>
         <button
           onClick={() => setShowType('card')}
-          className='lg:flex hidden px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
+          className='px-6 py-2 rounded-full bg-sky-800 text-white cursor-pointer hover:bg-sky-500 ease-in duration-300'
         >
           Card
         </button>
