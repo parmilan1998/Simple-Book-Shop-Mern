@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 const Card = ({ book }) => {
   return (
     <div>
-      <div className='card  h-40 bg-base-100 shadow-xl hover:bg-sky-500 hover:text-white ease-in duration-200'>
+      <div className='card  h-40 bg-base-100 shadow hover:bg-sky-500 hover:text-white ease-in duration-200'>
         <div className='card-body'>
           <h2 className='card-title'>
             {book.title}
