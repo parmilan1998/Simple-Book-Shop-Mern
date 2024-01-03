@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import { PORT, MONGODB_URL } from './Config.js'
 import bookRoute from './routes/bookRoute.js'
 import cors from 'cors'
+import 'dotenv/config'
 
 // Initialize the express App
 const app = express()
@@ -31,7 +32,7 @@ app.use('/books', bookRoute)
 
 // mongoose connection
 mongoose
-  .connect(MONGODB_URL)
+  .connect(process.env.MONGODB_URL)
   .then(() => {
     app.listen(PORT, () => {
       console.log(
