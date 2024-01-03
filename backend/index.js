@@ -1,7 +1,6 @@
 import express from 'express'
 import colors from 'colors'
 import mongoose from 'mongoose'
-import { PORT, MONGODB_URL } from './Config.js'
 import bookRoute from './routes/bookRoute.js'
 import cors from 'cors'
 import 'dotenv/config'
@@ -29,6 +28,8 @@ app.get('/', (req, res) => {
 
 // Routes for Books
 app.use('/books', bookRoute)
+
+const PORT = process.env.PORT
 
 // mongoose connection
 mongoose
