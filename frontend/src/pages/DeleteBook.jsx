@@ -12,7 +12,7 @@ const DeleteBook = () => {
   const handleDeleteBook = () => {
     setLoading(true)
     axios
-      .delete(`http://localhost:5000/books/${id}`)
+      .delete(`https://mern-book-store-8e39.onrender.com/books/${id}`)
       .then(() => {
         setLoading(false)
         toast.success('Book Deleted Successfully', {

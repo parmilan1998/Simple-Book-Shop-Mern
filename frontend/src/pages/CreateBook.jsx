@@ -14,7 +14,7 @@ const CreateBook = () => {
     const data = { title, author, publishedYear }
     setLoading(true)
     axios
-      .post(`http://localhost:5000/books`, data)
+      .post(`https://mern-book-store-8e39.onrender.com/books`, data)
       .then(() => {
         setLoading(false)
         toast.success('Book Added Successfully', {

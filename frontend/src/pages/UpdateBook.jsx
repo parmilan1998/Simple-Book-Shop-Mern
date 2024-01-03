@@ -16,7 +16,7 @@ const UpdateBook = () => {
   useEffect(() => {
     setLoading(true)
     axios
-      .get(`http://localhost:5000/books/${id}`)
+      .get(`https://mern-book-store-8e39.onrender.com/books/${id}`)
       .then((res) => {
         setTitle(res.data.title)
         setAuthor(res.data.author)
@@ -32,7 +32,7 @@ const UpdateBook = () => {
     const data = { title, author, publishedYear }
     setLoading(true)
     axios
-      .put(`http://localhost:5000/books/${id}`, data)
+      .put(`https://mern-book-store-8e39.onrender.com/books/${id}`, data)
       .then(() => {
         setLoading(false)
         toast.success('Book Update Successfully', {
