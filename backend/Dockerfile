@@ -1,7 +1,29 @@
+# Use Node.js 22 Alpine for smaller image size
 FROM node:22-alpine
+
+# Set working directory
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
+
+# Copy package files
+COPY package.json yarn.lock ./
+
+# Install dependencies
+RUN yarn install --frozen-lockfile
+
+# Copy TypeScript configuration
+COPY tsconfig.json ./
+
+# Copy source code
+COPY src ./src
+
+# Build the TypeScript application
+RUN yarn build
+
+# Expose the port
 EXPOSE 5000
-CMD ["node", "index.js"]
+
+# Set environment to production
+ENV NODE_ENV=production
+
+# Start the application
+CMD ["node", "dist/server.js"]

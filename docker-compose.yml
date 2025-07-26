@@ -1,6 +1,6 @@
 version: "3.8"
 
-services: 
+services:
   frontend:
     build:
       context: ./frontend
@@ -11,22 +11,26 @@ services:
       - ./frontend/.env
     depends_on:
       - backend
-  
+    restart: unless-stopped
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports: 
+    ports:
       - "5000:5000"
     env_file:
-      - ./backend/.env 
+      - ./backend/.env
+    environment:
+      - NODE_ENV=production
     depends_on:
-      - mongo 
-  
-  mongo: 
+      - mongo
+    restart: unless-stopped
+
+  mongo:
     image: mongo:6
     restart: always
-    ports: 
+    ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
