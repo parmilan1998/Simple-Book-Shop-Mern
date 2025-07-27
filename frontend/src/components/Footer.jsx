@@ -1,68 +1,85 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { FaBook, FaGithub, FaTwitter, FaLinkedin, FaHeart } from 'react-icons/fa'
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear()
+
   return (
-    <div className='bg-sky-800'>
-      <div className=' max-w-screen-2xl mx-auto lg:px-24 px-4'>
-        <footer className='footer pt-10 text-base-content font-poppins grid lg:col-span-4 md:col-span-2 sm:col-span-1'>
-          <aside>
-            <a className='text-2xl font-bold'>
-              Quill<span className=' text-white'>Quest</span>
-            </a>
-            <p className='text-base text-gray-400'>DuoCode Innovation.</p>
+    <div className="bg-gray-900 text-white">
+      <div className="max-w-screen-2xl mx-auto lg:px-24 px-4">
+        <footer className="footer pt-16 pb-8 font-poppins grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Brand Section */}
+          <aside className="lg:col-span-2">
+            <Link to="/" className="text-3xl font-bold mb-4 inline-block">
+              Quill<span className="text-blue-400">Quest</span>
+            </Link>
+            <p className="text-gray-300 text-lg mb-6 max-w-md">
+              Your digital companion for organizing and discovering books. Build your personal library with ease.
+            </p>
+            <div className="flex items-center gap-4">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                <FaGithub size={24} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                <FaTwitter size={24} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                <FaLinkedin size={24} />
+              </a>
+            </div>
           </aside>
+
+          {/* Quick Links */}
           <nav>
-            <header className='text-white text-xl font-semibold'>
-              Services
+            <header className="text-white text-xl font-semibold mb-4">
+              Quick Links
             </header>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Branding
+            <Link to="/" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Home
+            </Link>
+            <Link to="/books/create" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Add Book
+            </Link>
+            <a href="#" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Browse Books
             </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Design
-            </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Marketing
-            </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Advertisement
+            <a href="#" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              My Library
             </a>
           </nav>
+
+          {/* Support */}
           <nav>
-            <header className='text-white text-xl font-semibold'>
-              Company
+            <header className="text-white text-xl font-semibold mb-4">
+              Support
             </header>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              About us
+            <a href="#" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Help Center
             </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Contact
+            <a href="#" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Contact Us
             </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Jobs
+            <a href="#" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Privacy Policy
             </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Press kit
-            </a>
-          </nav>
-          <nav>
-            <header className='text-white text-xl font-semibold'>Legal</header>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Terms of use
-            </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Privacy policy
-            </a>
-            <a className='link link-hover text-base font-normal py-1 text-gray-400'>
-              Cookie policy
+            <a href="#" className="link link-hover text-gray-300 hover:text-white transition-colors duration-200 block py-1">
+              Terms of Service
             </a>
           </nav>
         </footer>
-        <div className="divider"></div> 
-        <footer className='footer footer-center pb-4 font-poppins text-base-content'>
+
+        {/* Bottom Section */}
+        <div className="divider divider-neutral opacity-20"></div>
+        <footer className="footer footer-center pb-8 font-poppins">
           <aside>
-            <p className='text-base text-gray-400 py-3'>
-              Copyright © 2023 - All right reserved by DuoCode Innovation
+            <div className="flex items-center justify-center gap-2 text-gray-400">
+              <span>Made with</span>
+              <FaHeart className="text-red-500 text-sm" />
+              <span>by QuillQuest Team</span>
+            </div>
+            <p className="text-gray-400 mt-2">
+              Copyright © {currentYear} - All rights reserved
             </p>
           </aside>
         </footer>
