@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Spinner from '../components/Spinner'
 import { Link } from 'react-router-dom'
 import { HiViewGrid, HiViewList } from 'react-icons/hi'
@@ -166,13 +166,13 @@ const Home = () => {
           <div className="flex justify-center items-center min-h-[400px]">
             <Spinner size="lg" message="Loading your library..." />
           </div>
-        ) : showType === 'table' ? (
-          <div className="animate-fade-in">
-            <BookTable books={books} />
-          </div>
         ) : (
           <div className="animate-fade-in">
-            <BookCard books={books} />
+            {showType === 'table' ? (
+              <BookTable books={books} />
+            ) : (
+              <BookCard books={books} />
+            )}
           </div>
         )}
       </main>
