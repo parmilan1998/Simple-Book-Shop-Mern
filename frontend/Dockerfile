@@ -1,5 +1,5 @@
-# Stage 1: Build React app with Yarn
-FROM node:22-alpine AS builder
+# Use Node.js official image
+FROM node:22-alpine
 
 # Set working directory
 WORKDIR /app
@@ -7,7 +7,7 @@ WORKDIR /app
 # Copy package files
 COPY package.json yarn.lock ./
 
-# Install dependencies
+# Install all dependencies (including devDependencies for build)
 RUN yarn install --frozen-lockfile
 
 # Copy source code
@@ -16,17 +16,11 @@ COPY . .
 # Build the application
 RUN yarn build
 
-# Stage 2: Serve with NGINX
-FROM nginx:stable-alpine
+# Install serve globally to serve the built app
+RUN yarn global add serve
 
-# Copy built app from builder stage (Vite builds to 'dist' folder)
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Expose port 3000
+EXPOSE 3000
 
-# Copy custom nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Serve the built application
+CMD ["serve", "-s", "dist", "-l", "3000"]
