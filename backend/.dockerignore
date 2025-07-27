@@ -9,7 +9,6 @@ dist
 
 # Environment files
 .env*
-!.env.production
 
 # Development files
 *.md

@@ -32,11 +32,15 @@ cd backend
 # Build the Docker image
 docker build -t book-shop-backend:latest .
 
-# Run the container with environment file
-docker run -p 5000:5000 --env-file .env book-shop-backend:latest
+# Run the container with environment variables
+docker run -d -p 8082:9000 \
+  -e NODE_ENV=development \
+  -e PORT=9000 \
+  -e MONGO_URI=mongodb+srv://bookLogix:bookLogix@cluster0.ck00j6t.mongodb.net/book_dev \
+  book-shop-backend:latest
 
 # Access the API
-curl http://localhost:5000/
+curl http://localhost:8082/
 ```
 
 ### Using Build Script

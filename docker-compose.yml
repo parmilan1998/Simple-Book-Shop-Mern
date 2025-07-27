@@ -6,11 +6,13 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
+      - "3000:3000"
     env_file:
       - ./frontend/.env
     depends_on:
       - backend
+    networks:
+      - bookshop
     restart: unless-stopped
 
   backend:
@@ -18,13 +20,15 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "9000:9000"
     env_file:
       - ./backend/.env
     environment:
       - NODE_ENV=production
     depends_on:
       - mongo
+    networks:
+      - bookshop
     restart: unless-stopped
 
   mongo:
@@ -32,9 +36,8 @@ services:
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: mongo
-      MONGO_INITDB_ROOT_PASSWORD: mongo
+    networks:
+      - bookshop
     volumes:
       - mongo-data:/data/db
 
