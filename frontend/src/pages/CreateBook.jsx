@@ -73,57 +73,59 @@ const CreateBook = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="text-center">
-          <Spinner />
-          <p className="mt-4 text-gray-600 font-medium">Adding your book...</p>
+          <Spinner size="lg" message="Adding your book to the library..." />
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 font-poppins">
+    <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <Link
             to="/"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 mb-4"
+            className="inline-flex items-center text-primary-600 hover:text-primary-700 transition-colors duration-200 mb-8 font-inter font-medium"
           >
-            <FaArrowLeft className="mr-2" />
+            <FaArrowLeft className="mr-2 w-4 h-4" />
             Back to Library
           </Link>
+
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-              <FaBook className="text-blue-600 text-2xl" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl mb-6 shadow-lg">
+              <FaBook className="text-white text-2xl" />
             </div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+
+            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4 font-lora">
               Add New Book
             </h1>
-            <p className="text-gray-600 text-lg">
-              Expand your digital library with a new book
+
+            <p className="text-xl text-slate-600 font-inter">
+              Expand your digital library with a new addition
             </p>
           </div>
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-          <div className="p-8">
-            <form onSubmit={handleSaveBook} className="space-y-6">
+        <div className="glass-effect shadow-luxury rounded-2xl overflow-hidden">
+          <div className="p-8 lg:p-12">
+            <form onSubmit={handleSaveBook} className="space-y-8">
               {/* Book Title */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-semibold text-gray-700">
-                    Book Title *
-                  </span>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-700 font-inter">
+                  Book Title *
                 </label>
                 <input
                   type="text"
                   placeholder="Enter the book title"
-                  className={`input input-bordered w-full text-base ${
-                    errors.title ? 'input-error' : 'focus:input-primary'
-                  }`}
+                  className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-xl transition-all duration-200 font-lora text-lg ${
+                    errors.title
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                      : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20'
+                  } focus:outline-none focus:ring-4`}
                   value={title}
                   onChange={(e) => {
                     setTitle(e.target.value)
@@ -133,25 +135,23 @@ const CreateBook = () => {
                   }}
                 />
                 {errors.title && (
-                  <label className="label">
-                    <span className="label-text-alt text-error">{errors.title}</span>
-                  </label>
+                  <p className="text-red-600 text-sm font-inter">{errors.title}</p>
                 )}
               </div>
 
               {/* Author */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-semibold text-gray-700">
-                    Author *
-                  </span>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-700 font-inter">
+                  Author *
                 </label>
                 <input
                   type="text"
                   placeholder="Enter author name"
-                  className={`input input-bordered w-full text-base ${
-                    errors.author ? 'input-error' : 'focus:input-primary'
-                  }`}
+                  className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-xl transition-all duration-200 font-lora text-lg ${
+                    errors.author
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                      : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20'
+                  } focus:outline-none focus:ring-4`}
                   value={author}
                   onChange={(e) => {
                     setAuthor(e.target.value)
@@ -161,27 +161,25 @@ const CreateBook = () => {
                   }}
                 />
                 {errors.author && (
-                  <label className="label">
-                    <span className="label-text-alt text-error">{errors.author}</span>
-                  </label>
+                  <p className="text-red-600 text-sm font-inter">{errors.author}</p>
                 )}
               </div>
 
               {/* Published Year */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-semibold text-gray-700">
-                    Published Year *
-                  </span>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-700 font-inter">
+                  Published Year *
                 </label>
                 <input
                   type="number"
                   placeholder="Enter the published year"
                   min="1000"
                   max={new Date().getFullYear()}
-                  className={`input input-bordered w-full text-base ${
-                    errors.publishedYear ? 'input-error' : 'focus:input-primary'
-                  }`}
+                  className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-xl transition-all duration-200 font-lora text-lg ${
+                    errors.publishedYear
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                      : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20'
+                  } focus:outline-none focus:ring-4`}
                   value={publishedYear}
                   onChange={(e) => {
                     setPublishedYear(e.target.value)
@@ -191,20 +189,18 @@ const CreateBook = () => {
                   }}
                 />
                 {errors.publishedYear && (
-                  <label className="label">
-                    <span className="label-text-alt text-error">{errors.publishedYear}</span>
-                  </label>
+                  <p className="text-red-600 text-sm font-inter">{errors.publishedYear}</p>
                 )}
               </div>
 
               {/* Submit Button */}
-              <div className="form-control mt-8">
+              <div className="pt-6">
                 <button
                   type="submit"
-                  className="btn btn-primary btn-lg w-full text-base font-semibold"
+                  className="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-700 hover:to-secondary-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-inter text-lg"
                   disabled={loading}
                 >
-                  <FaPlus className="mr-2" />
+                  <FaPlus className="inline-block mr-3 w-5 h-5" />
                   Add Book to Library
                 </button>
               </div>
@@ -213,9 +209,9 @@ const CreateBook = () => {
         </div>
 
         {/* Help Text */}
-        <div className="mt-6 text-center">
-          <p className="text-gray-500 text-sm">
-            * Required fields. Make sure all information is accurate before submitting.
+        <div className="mt-8 text-center">
+          <p className="text-slate-500 font-inter">
+            * Required fields. Ensure all information is accurate before submitting.
           </p>
         </div>
       </div>

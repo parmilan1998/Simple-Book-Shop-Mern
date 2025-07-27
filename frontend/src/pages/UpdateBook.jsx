@@ -116,47 +116,47 @@ const UpdateBook = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 font-poppins">
+    <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <Link
             to="/"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 mb-4"
+            className="inline-flex items-center text-primary-600 hover:text-primary-700 transition-colors duration-200 mb-8 font-inter font-medium"
           >
-            <FaArrowLeft className="mr-2" />
+            <FaArrowLeft className="mr-2 w-4 h-4" />
             Back to Library
           </Link>
           <div className="text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-              <FaEdit className="text-green-600 text-2xl" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl mb-6 shadow-lg">
+              <FaEdit className="text-white text-2xl" />
             </div>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
+            <h1 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4 font-lora">
               Update Book
             </h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-xl text-slate-600 font-inter">
               Edit the details of your book
             </p>
           </div>
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-          <div className="p-8">
-            <form onSubmit={handleUpdateBook} className="space-y-6">
+        <div className="glass-effect shadow-luxury rounded-2xl overflow-hidden">
+          <div className="p-8 lg:p-12">
+            <form onSubmit={handleUpdateBook} className="space-y-8">
               {/* Book Title */}
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-base font-semibold text-gray-700">
-                    Book Title *
-                  </span>
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-slate-700 font-inter">
+                  Book Title *
                 </label>
                 <input
                   type="text"
                   placeholder="Enter the book title"
-                  className={`input input-bordered w-full text-base ${
-                    errors.title ? 'input-error' : 'focus:input-primary'
-                  }`}
+                  className={`w-full px-4 py-3 bg-slate-50 border-2 rounded-xl transition-all duration-200 font-lora text-lg ${
+                    errors.title
+                      ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                      : 'border-slate-200 focus:border-primary-500 focus:ring-primary-500/20'
+                  } focus:outline-none focus:ring-4`}
                   value={title}
                   onChange={(e) => {
                     setTitle(e.target.value)
@@ -166,9 +166,7 @@ const UpdateBook = () => {
                   }}
                 />
                 {errors.title && (
-                  <label className="label">
-                    <span className="label-text-alt text-error">{errors.title}</span>
-                  </label>
+                  <p className="text-red-600 text-sm font-inter">{errors.title}</p>
                 )}
               </div>
 
@@ -231,15 +229,14 @@ const UpdateBook = () => {
               </div>
 
               {/* Submit Button */}
-              <div className="form-control mt-8">
+              <div className="pt-6">
                 <button
                   type="submit"
-                  className="btn btn-success btn-lg w-full text-base font-semibold group relative overflow-hidden"
+                  className="w-full bg-gradient-to-r from-accent-600 to-accent-700 hover:from-accent-700 hover:to-accent-800 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-inter text-lg"
                   disabled={loading}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-all duration-700"></div>
-                  <FaSave className="mr-2 relative z-10" />
-                  <span className="relative z-10">Update Book</span>
+                  <FaSave className="inline-block mr-3 w-5 h-5" />
+                  Update Book
                 </button>
               </div>
             </form>
@@ -247,9 +244,9 @@ const UpdateBook = () => {
         </div>
 
         {/* Help Text */}
-        <div className="mt-6 text-center">
-          <p className="text-gray-500 text-sm">
-            * Required fields. Make sure all information is accurate before updating.
+        <div className="mt-8 text-center">
+          <p className="text-slate-500 font-inter">
+            * Required fields. Ensure all information is accurate before updating.
           </p>
         </div>
       </div>

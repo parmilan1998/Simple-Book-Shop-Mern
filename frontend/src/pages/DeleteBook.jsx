@@ -86,63 +86,68 @@ const DeleteBook = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 font-poppins">
+    <div className="min-h-screen bg-slate-50 py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-12">
           <Link
             to="/"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 mb-4"
+            className="inline-flex items-center text-primary-600 hover:text-primary-700 transition-colors duration-200 mb-8 font-inter font-medium"
           >
-            <FaArrowLeft className="mr-2" />
+            <FaArrowLeft className="mr-2 w-4 h-4" />
             Back to Library
           </Link>
         </div>
 
         {/* Confirmation Dialog */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="glass-effect shadow-luxury rounded-2xl overflow-hidden">
           {/* Warning Header */}
-          <div className="bg-gradient-to-r from-red-500 to-red-600 p-6 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-              <FaExclamationTriangle className="text-white text-2xl" />
+          <div className="bg-gradient-to-r from-red-500 via-red-600 to-red-700 p-8 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+            <div className="relative z-10">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 shadow-lg">
+                <FaExclamationTriangle className="text-white text-3xl" />
+              </div>
+              <h1 className="text-4xl font-bold text-white mb-3 font-lora">
+                Delete Book
+              </h1>
+              <p className="text-red-100 text-lg font-inter">
+                This action cannot be undone
+              </p>
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              Delete Book
-            </h1>
-            <p className="text-red-100 text-lg">
-              This action cannot be undone
-            </p>
           </div>
 
           {/* Content */}
-          <div className="p-8">
+          <div className="p-8 lg:p-12">
             {/* Book Preview */}
-            <div className="bg-gray-50 rounded-xl p-6 mb-8 border-l-4 border-red-500">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <FaBook className="text-white text-lg" />
+            <div className="bg-slate-50 rounded-2xl p-8 mb-10 border-l-4 border-red-500 shadow-sm">
+              <div className="flex items-start gap-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <FaBook className="text-white text-2xl" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3 font-lora">
                     {book.title}
                   </h3>
-                  <p className="text-gray-600 mb-1">
-                    <span className="font-medium">Author:</span> {book.author}
-                  </p>
-                  <p className="text-gray-600">
-                    <span className="font-medium">Published:</span> {book.publishedYear}
-                  </p>
+                  <div className="space-y-2 font-inter">
+                    <p className="text-slate-600">
+                      <span className="font-semibold text-slate-800">Author:</span> {book.author}
+                    </p>
+                    <p className="text-slate-600">
+                      <span className="font-semibold text-slate-800">Published:</span> {book.publishedYear}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Warning Message */}
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-slate-900 mb-6 font-lora">
                 Are you sure you want to delete this book?
               </h2>
-              <p className="text-gray-600 text-lg leading-relaxed">
-                This will permanently remove <span className="font-semibold text-gray-800">&ldquo;{book.title}&rdquo;</span> from your library.
+              <p className="text-lg text-slate-600 leading-relaxed font-inter max-w-2xl mx-auto">
+                This will permanently remove <span className="font-semibold text-slate-900">&ldquo;{book.title}&rdquo;</span> from your library.
                 This action cannot be undone and all associated data will be lost.
               </p>
             </div>
@@ -151,32 +156,33 @@ const DeleteBook = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={handleCancel}
-                className="btn btn-outline btn-lg px-8 group relative overflow-hidden order-2 sm:order-1"
+                className="px-8 py-4 border-2 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400 font-semibold rounded-xl transition-all duration-300 font-inter text-lg order-2 sm:order-1"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <FaTimes className="mr-2 relative z-10" />
-                <span className="relative z-10">Cancel</span>
+                <FaTimes className="inline-block mr-3 w-5 h-5" />
+                Cancel
               </button>
 
               <button
                 onClick={handleDeleteBook}
-                className="btn btn-error btn-lg px-8 group relative overflow-hidden order-1 sm:order-2"
+                className="px-8 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-inter text-lg order-1 sm:order-2"
                 disabled={loading}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-red-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <FaTrash className="mr-2 relative z-10 group-hover:animate-bounce" />
-                <span className="relative z-10">Yes, Delete Book</span>
+                <FaTrash className="inline-block mr-3 w-5 h-5" />
+                Yes, Delete Book
               </button>
             </div>
 
             {/* Safety Note */}
-            <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <div className="flex items-start gap-3">
-                <FaExclamationTriangle className="text-yellow-600 mt-0.5 flex-shrink-0" />
+            <div className="mt-10 p-6 bg-amber-50 border-2 border-amber-200 rounded-2xl">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <FaExclamationTriangle className="text-amber-600 w-4 h-4" />
+                </div>
                 <div>
-                  <p className="text-sm text-yellow-800">
-                    <span className="font-semibold">Safety Tip:</span> Make sure you have a backup of any important information
-                    before proceeding with the deletion.
+                  <h4 className="font-semibold text-amber-900 mb-2 font-lora">Safety Reminder</h4>
+                  <p className="text-amber-800 font-inter leading-relaxed">
+                    Make sure you have a backup of any important information before proceeding with the deletion.
+                    Once deleted, this book cannot be recovered.
                   </p>
                 </div>
               </div>
