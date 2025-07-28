@@ -20,7 +20,7 @@ RUN yarn build
 RUN yarn global add serve
 
 # Expose port 3000
-EXPOSE 3000
+EXPOSE 3001
 
 # Serve the built application
-CMD ["serve", "-s", "dist", "-l", "3000"]
+CMD ["serve", "-s", "dist", "-l", "3001"]
