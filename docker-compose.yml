@@ -6,7 +6,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3002:3000"
     env_file:
       - ./frontend/.env
     depends_on:
@@ -26,7 +26,8 @@ services:
     environment:
       - NODE_ENV=production
     depends_on:
-      - mongo
+      mongo:
+        condition: service_healthy
     networks:
       - bookshop
     restart: unless-stopped
@@ -43,3 +44,7 @@ services:
 
 volumes:
   mongo-data:
+
+networks:
+  bookshop:
+    driver: bridge
