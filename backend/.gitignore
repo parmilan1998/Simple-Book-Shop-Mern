@@ -4,5 +4,4 @@ Config.js
 .env.development
 .env.production
 dist
-.dockerignore
 src/env/.env.*
