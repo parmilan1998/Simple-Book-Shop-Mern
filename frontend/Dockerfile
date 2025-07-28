@@ -1,16 +1,26 @@
-# Stage 1: Build React app with Yarn
-FROM node:22 AS builder
+# Use Node.js official image
+FROM node:22-alpine
+
+# Set working directory
 WORKDIR /app
 
+# Copy package files
 COPY package.json yarn.lock ./
-RUN yarn install
 
+# Install all dependencies (including devDependencies for build)
+RUN yarn install --frozen-lockfile
+
+# Copy source code
 COPY . .
+
+# Build the application
 RUN yarn build
 
-# Stage 2: Serve with NGINX
-FROM nginx:stable-alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+# Install serve globally to serve the built app
+RUN yarn global add serve
 
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+# Expose port 3000
+EXPOSE 3000
+
+# Serve the built application
+CMD ["serve", "-s", "dist", "-l", "3000"]
