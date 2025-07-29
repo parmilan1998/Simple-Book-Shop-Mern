@@ -2,7 +2,6 @@ version: "3.8"
 
 services:
   frontend:
-    image: mparmilan/booklogix-frontend:v1.0.0
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -17,12 +16,11 @@ services:
     restart: unless-stopped
 
   backend:
-    image: mparmilan/booklogix-backend:v1.0.0
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080" 
+      - "8080:8080"
     env_file:
       - ./backend/src/env/.env.production
     environment:

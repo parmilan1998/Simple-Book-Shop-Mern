@@ -17,7 +17,7 @@ COPY . .
 RUN yarn build
 
 # Expose the port
-EXPOSE 9000
+EXPOSE 5000
 
 # Set environment to production
 ENV NODE_ENV=production
