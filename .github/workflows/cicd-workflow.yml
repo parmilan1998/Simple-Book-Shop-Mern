@@ -41,23 +41,34 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # --- Frontend ---
+      # Frontend
       - name: Pull latest frontend image
         run: docker pull ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest
 
       - name: Remove existing frontend container (if any)
-        run: docker rm -f booklogix-frontend-container
+        run: docker rm -f booklogix-frontend-container || true
 
       - name: Run new frontend container
         run: docker run -d --name booklogix-frontend-container -p 3020:3001 ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest
 
-      # --- Backend ---
+      - name: Check frontend container status
+        run: docker ps -a | grep booklogix-frontend-container || true
+
+      - name: Check frontend container logs
+        run: docker logs booklogix-frontend-container || true
+
+      # Backend
       - name: Pull latest backend image
         run: docker pull ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
 
       - name: Remove existing backend container (if any)
-        run: docker rm -f backend || true
+        run: docker rm -f booklogix-backend-container || true
 
       - name: Run new backend container
-        run: docker run -d --name booklogix-backend-container  -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
-      
+        run: docker run -d --name booklogix-backend-container -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
+
+      - name: Check backend container status
+        run: docker ps -a | grep booklogix-backend-container || true
+
+      - name: Check backend container logs
+        run: docker logs booklogix-backend-container || true
