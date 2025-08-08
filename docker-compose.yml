@@ -6,19 +6,21 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3020:3001"
+      - "3001:80"
+    container_name: booklogix-frontend
     env_file:
       - ./frontend/.env
     depends_on:
       - backend
     networks:
-      - bookshop
+      - booklogix
     restart: unless-stopped
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: booklogix-backend
     ports:
       - "8080:8080"
     env_file:
@@ -29,7 +31,7 @@ services:
       mongo:
         condition: service_healthy
     networks:
-      - bookshop
+      - booklogix
     restart: unless-stopped
 
   mongo:
@@ -37,8 +39,9 @@ services:
     restart: always
     ports:
       - "27017:27017"
+    container_name: booklogix-mongo
     networks:
-      - bookshop
+      - booklogix
     volumes:
       - mongo-data:/data/db
     healthcheck:
@@ -51,5 +54,5 @@ volumes:
   mongo-data:
 
 networks:
-  bookshop:
+  booklogix:
     driver: bridge
