@@ -1,0 +1,63 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [release-1.0]
+
+jobs:
+  # 1️⃣ Build & Publish Stage
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+
+      # Build Frontend
+      - name: Build Docker image (frontend)
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest ./frontend
+
+      # Build Backend
+      - name: Build Docker image (backend)
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest ./backend
+
+      # Push Frontend
+      - name: Push Docker image (frontend)
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest
+
+      # Push Backend
+      - name: Push Docker image (backend)
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
+
+      - name: ✅ Images Published
+        run: echo "🎉 Frontend & Backend images pushed to Docker Hub successfully!"
+
+  deploy:
+    runs-on: [azure-vm]
+    needs: build
+    steps:
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # --- Frontend ---
+      - name: Pull latest frontend image
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest
+
+      - name: Remove existing frontend container (if any)
+        run: docker rm -f booklogix-frontend-container
+
+      - name: Run new frontend container
+        run: docker run -d --name booklogix-frontend-container -p 3020:3001 ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest
+
+      # --- Backend ---
+      - name: Pull latest backend image
+        run: docker pull ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
+
+      - name: Remove existing backend container (if any)
+        run: docker rm -f backend || true
+
+      - name: Run new backend container
+        run: docker run -d --name booklogix-backend-container  -p 5000:5000 ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
+      

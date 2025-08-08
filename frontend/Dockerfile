@@ -1,26 +1,19 @@
-# Use Node.js official image
-FROM node:22-alpine
+# --------- Build Stage ---------
+FROM node:22-alpine AS builder
 
-# Set working directory
 WORKDIR /app
-
-# Copy package files
 COPY package.json yarn.lock ./
-
-# Install all dependencies (including devDependencies for build)
 RUN yarn install --frozen-lockfile
-
-# Copy source code
 COPY . .
-
-# Build the application
 RUN yarn build
 
-# Install serve globally to serve the built app
-RUN yarn global add serve
+# --------- Run Stage ---------
+FROM node:22-alpine
 
-# Expose port 3000
-EXPOSE 3000
+WORKDIR /app
+COPY package.json yarn.lock ./
+RUN yarn install --production --frozen-lockfile
+COPY --from=builder /app/dist ./dist
 
-# Serve the built application
-CMD ["serve", "-s", "dist", "-l", "3000"]
+EXPOSE 3001
+CMD ["yarn", "preview", "--port", "3001", "--host"]

@@ -10,20 +10,14 @@ COPY package.json yarn.lock ./
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Copy TypeScript configuration
-COPY tsconfig.json ./
-
 # Copy source code
-COPY src ./src
-
-# Copy environment files
-# COPY src/env ./env
+COPY . .
 
 # Build the TypeScript application
 RUN yarn build
 
 # Expose the port
-EXPOSE 9000
+EXPOSE 5000
 
 # Set environment to production
 ENV NODE_ENV=production
