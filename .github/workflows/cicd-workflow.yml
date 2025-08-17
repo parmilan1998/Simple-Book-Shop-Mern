@@ -1,4 +1,4 @@
-name: CI/CD
+name: CI/CD for deploy MERN Application
 
 on:
   push:
@@ -10,56 +10,66 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-      # Build Frontend
+      # Build Frontend (Vite env baked in at build time)
       - name: Build Docker image (frontend)
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest ./frontend
+        run: docker build -t mparmilan/booklogix-frontend:latest \
+              --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} \
+              ./frontend
 
-      # Build Backend
+      # Build Backend (build-time args optional)
       - name: Build Docker image (backend)
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest ./backend
+        run: docker build -t mparmilan/booklogix-backend:latest \
+              ./backend
 
       # Push Frontend
       - name: Push Docker image (frontend)
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/booklogix-frontend:latest
+        run: docker push mparmilan/booklogix-frontend:latest
 
       # Push Backend
       - name: Push Docker image (backend)
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/booklogix-backend:latest
+        run: docker push mparmilan/booklogix-backend:latest
 
       - name: ✅ Images Published
         run: echo "🎉 Frontend & Backend images pushed to Docker Hub successfully!"
 
   # 2️⃣ Deploy Stage
   deploy:
-    runs-on: [self-hosted, azure-vm]
+    runs-on: [self-hosted, AzureVM]
     needs: build
     steps:
-      - name: Checkout code (to get docker-compose.yml and env files)
-        uses: actions/checkout@v3
+      - name: Pull the frontend image from Docker Hub
+        run: docker pull mparmilan/booklogix-frontend:latest
 
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: Pull the backend image from Docker Hub
+        run: docker pull mparmilan/booklogix-backend:latest
 
-      - name: Create backend env file
+      - name: Create Docker network (if not exists)
+        run: docker network create booklogix-network || true
+
+      - name: Remove existing frontend container
+        run: docker rm -f booklogix-frontend-container || true
+
+      - name: Remove existing backend container
+        run: docker rm -f booklogix-backend-container || true
+
+      - name: Run backend Docker Container
         run: |
-          mkdir -p ./backend/src/env
-          echo "${{ secrets.BACKEND_ENV_PRODUCTION }}" > ./backend/src/env/.env.production
+          docker run -d \
+            --name booklogix-backend-container \
+            --network booklogix-network \
+            -e MONGO_URI=${{ secrets.MONGO_URI }} \
+            -p 5000:5000 \
+            mparmilan/booklogix-backend:latest
 
-      - name: Pull latest images and deploy with Docker Compose v2
+      - name: Run frontend Docker Container
         run: |
-          docker compose -f ./docker-compose.yml pull
-          docker compose -f ./docker-compose.yml up -d --remove-orphans
-
-      - name: Verify containers are running
-        run: docker ps --filter "name=booklogix"
-
-      - name: Check frontend logs (last 20 lines)
-        run: docker logs --tail 20 booklogix-frontend || true
-
-      - name: Check backend logs (last 20 lines)
-        run: docker logs --tail 20 booklogix-backend || true
+          docker run -d \
+            --name booklogix-frontend-container \
+            --network booklogix-network \
+            -p 3020:80 \
+            mparmilan/booklogix-frontend:latest

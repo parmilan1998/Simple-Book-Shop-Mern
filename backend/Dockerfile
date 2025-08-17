@@ -1,26 +1,33 @@
 # Use Node.js 22 Alpine for smaller image size
 FROM node:22-alpine
 
+# Build-time arguments
+ARG NODE_ENV=production
+ARG PORT=5000
+ARG MONGO_URI
+
+# Runtime environment variables
+ENV NODE_ENV=${NODE_ENV}
+ENV PORT=${PORT}
+ENV MONGO_URI=${MONGO_URI}
+
 # Set working directory
 WORKDIR /app
 
-# Copy package files
+# Copy only dependency files first (better caching)
 COPY package.json yarn.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --production=false
 
-# Copy source code
+# Copy the rest of the source code
 COPY . .
 
 # Build the TypeScript application
 RUN yarn build
 
-# Expose the port
-EXPOSE 5000
-
-# Set environment to production
-ENV NODE_ENV=production
+# Expose the app port
+EXPOSE ${PORT}
 
 # Start the application
 CMD ["node", "dist/server.js"]
