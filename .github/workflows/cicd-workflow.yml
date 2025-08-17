@@ -1,4 +1,4 @@
-name: CI/CD for deploy MERN Application
+name: CI/CD for deploying MERN Application
 
 on:
   push:
@@ -12,27 +12,46 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          install: true
+
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Verify frontend Dockerfile
+        run: |
+          if [ ! -f ./frontend/Dockerfile ]; then
+            echo "Error: Dockerfile not found in ./frontend"
+            ls -la ./frontend
+            exit 1
+          fi
 
       - name: Build frontend Docker image
         run: |
           docker build \
             -t mparmilan/booklogix-frontend:latest \
-            --build-arg NODE_ENV="production" \
+            --build-arg NODE_ENV=production \
             --build-arg PORT=${{ secrets.PORT }} \
             --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} \
             ./frontend
 
-      - name: Build Docker image (backend)
+      - name: Verify backend Dockerfile
+        run: |
+          if [ ! -f ./backend/Dockerfile ]; then
+            echo "Error: Dockerfile not found in ./backend"
+            ls -la ./backend
+            exit 1
+          fi
+
+      - name: Build backend Docker image
         run: docker build -t mparmilan/booklogix-backend:latest ./backend
 
-      # Push Frontend
-      - name: Push Docker image (frontend)
+      - name: Push frontend Docker image
         run: docker push mparmilan/booklogix-frontend:latest
 
-      # Push Backend
-      - name: Push Docker image (backend)
+      - name: Push backend Docker image
         run: docker push mparmilan/booklogix-backend:latest
 
       - name: ✅ Images Published
@@ -58,7 +77,7 @@ jobs:
       - name: Remove existing backend container
         run: docker rm -f booklogix-backend-container || true
 
-      - name: Run backend Docker Container
+      - name: Run backend Docker container
         run: |
           docker run -d \
             --name booklogix-backend-container \
@@ -67,7 +86,7 @@ jobs:
             -p 5000:5000 \
             mparmilan/booklogix-backend:latest
 
-      - name: Run frontend Docker Container
+      - name: Run frontend Docker container
         run: |
           docker run -d \
             --name booklogix-frontend-container \
