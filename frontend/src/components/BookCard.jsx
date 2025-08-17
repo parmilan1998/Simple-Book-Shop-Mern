@@ -40,7 +40,7 @@ const BookCard = ({ books }) => {
         <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4 font-lora">
           Your Book Collection
         </h2>
-        <p className="text-lg text-slate-600 max-w-3xl mx-auto font-inter">
+        <p className="text-lg text-slate-700 max-w-3xl mx-auto font-inter">
           Explore and manage your carefully curated library of books.
           Each book tells a story, and together they tell yours.
         </p>
