@@ -2,8 +2,8 @@
 FROM node:22-alpine
 
 # Build-time arguments
-ARG NODE_ENV=production
-ARG PORT=5000
+ARG NODE_ENV
+ARG PORT
 ARG MONGO_URI
 
 # Runtime environment variables
