@@ -15,10 +15,10 @@ jobs:
         run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
 
       - name: Build frontend Docker image
-        run: docker build -t mparmilan/booklogix-frontend:latest --build-arg NODE_ENV=production --build-arg PORT=${{ secrets.PORT }} --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} ./frontend
+        run: docker build -t mparmilan/booklogix-frontend:latest --build-arg VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }} ./frontend
 
       - name: Build backend Docker image
-        run: docker build -t mparmilan/booklogix-backend:latest ./backend
+        run: docker build -t mparmilan/booklogix-backend:latest --build-arg NODE_ENV=production --build-arg PORT=${{ secrets.PORT }} --build-arg MONGO_URI=${{ secrets.MONGO_URI }} ./backend
 
       - name: Push frontend Docker image
         run: docker push mparmilan/booklogix-frontend:latest
