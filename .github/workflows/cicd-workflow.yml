@@ -34,8 +34,8 @@ jobs:
     runs-on: [self-hosted, AzureVM]
     needs: build
     steps:
-     # - name: Pull the frontend image from Docker Hub
-      #  run: docker pull mparmilan/booklogix-frontend:latest
+      - name: Pull the frontend image from Docker Hub
+        run: docker pull mparmilan/booklogix-frontend:latest
 
       - name: Pull the backend image from Docker Hub
         run: docker pull mparmilan/booklogix-backend:latest
