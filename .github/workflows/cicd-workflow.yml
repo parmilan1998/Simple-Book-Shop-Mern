@@ -76,12 +76,17 @@ jobs:
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "✅ Deployment Successful - Booklogix"
-          to: parmilancs2024@gmail.com
-          from: "Booklogix CI/CD Bot <${{ secrets.SMTP_USERNAME }}>"
+          to: ${{ secrets.NOTIFY_EMAIL }}
+          from: "Booklogix CI/CD Deployment <${{ secrets.SMTP_USERNAME }}>"
           body: |
-            ✅ Deployment completed successfully!
-            🕒 Time: ${{ github.event.head_commit.timestamp }}
+            🎉 Deployment completed successfully! 🎉
+            
+            🌍 Access URLs:
+              - Frontend → http://${{ secrets.SERVER_IP }}:3020
+            
             🔔 Triggered by: ${{ github.actor }}
+            📝 Commit: ${{ github.event.head_commit.message }}
+            🕒 Time: ${{ github.event.head_commit.timestamp }}
 
       # ❌ Failure Email
       - name: 📧 Send Failure Email
@@ -93,10 +98,16 @@ jobs:
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "❌ Deployment Failed - Booklogix"
-          to: parmilancs2024@gmail.com
+          to: ${{ secrets.NOTIFY_EMAIL }}
           from: "Booklogix CI/CD Bot <${{ secrets.SMTP_USERNAME }}>"
           body: |
-            ❌ Deployment FAILED!
-            🔔 Commit: ${{ github.event.head_commit.message }}
+            ❌ Deployment FAILED! ❌
+            
+            🔔 Triggered by: ${{ github.actor }}
+            📝 Commit: ${{ github.event.head_commit.message }}
             🕒 Time: ${{ github.event.head_commit.timestamp }}
+            
             📄 Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+
+      : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
