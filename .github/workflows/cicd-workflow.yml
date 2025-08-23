@@ -65,3 +65,38 @@ jobs:
             --network booklogix-network \
             -p 3020:80 \
             mparmilan/booklogix-frontend:latest
+
+      # ✅ Success Email
+      - name: 📧 Send Success Email
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "✅ Deployment Successful - Booklogix"
+          to: parmilancs2024@gmail.com
+          from: "Booklogix CI/CD Bot <${{ secrets.SMTP_USERNAME }}>"
+          body: |
+            ✅ Deployment completed successfully!
+            🕒 Time: ${{ github.event.head_commit.timestamp }}
+            🔔 Triggered by: ${{ github.actor }}
+
+      # ❌ Failure Email
+      - name: 📧 Send Failure Email
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "❌ Deployment Failed - Booklogix"
+          to: parmilancs2024@gmail.com
+          from: "Booklogix CI/CD Bot <${{ secrets.SMTP_USERNAME }}>"
+          body: |
+            ❌ Deployment FAILED!
+            🔔 Commit: ${{ github.event.head_commit.message }}
+            🕒 Time: ${{ github.event.head_commit.timestamp }}
+            📄 Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
