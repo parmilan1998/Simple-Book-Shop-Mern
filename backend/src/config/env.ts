@@ -1,19 +1,28 @@
 import dotenv from "dotenv";
-import path from "path";
 
-dotenv.config({
-  path: path.resolve(
-    __dirname,
-    `../env/.env.${process.env.NODE_ENV || "development"}`
-  ),
-});
+const envFile =
+  process.env.NODE_ENV === "production"
+    ? ".env.production"
+    : ".env.development";
 
-export const config = {
-  mongoUri: (process.env.MONGO_URI as string) || "",
-  port: process.env.PORT || 5000,
-  nodeEnv: process.env.NODE_ENV,
-  JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET!,
-  JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
-  JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES || "15m",
-  JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES || "7d",
+dotenv.config({ path: envFile });
+
+const config: any = {
+  PORT: process.env.PORT,
+  NODE_ENV: process.env.NODE_ENV,
+  DATABASE_URL: process.env.DATABASE_URL,
+
+  DATABASE_HOST: process.env.DB_HOST,
+  DATABASE_PORT: process.env.DB_PORT,
+  DATABASE_USER: process.env.DB_USER,
+  DB_PASSWORD: String(process.env.DB_PASSWORD),
+  DATABASE_NAME: process.env.DB_NAME,
+
+  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
+  ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY,
+  REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY,
+  SALT_ROUNDS: process.env.SALT_ROUNDS,
 };
+
+export default config;
