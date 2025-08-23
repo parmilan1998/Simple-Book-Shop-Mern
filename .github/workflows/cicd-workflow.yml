@@ -82,7 +82,7 @@ jobs:
             🎉 Deployment completed successfully! 🎉
             
             🌍 Access URLs:
-              - Frontend → http://${{ secrets.SERVER_IP }}:3020
+              - Frontend → ${{ secrets.SERVER_IP }}:3020
             
             🔔 Triggered by: ${{ github.actor }}
             📝 Commit: ${{ github.event.head_commit.message }}
