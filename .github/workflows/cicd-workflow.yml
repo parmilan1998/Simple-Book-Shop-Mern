@@ -108,6 +108,3 @@ jobs:
             🕒 Time: ${{ github.event.head_commit.timestamp }}
             
             📄 Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-
-
-      : ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
