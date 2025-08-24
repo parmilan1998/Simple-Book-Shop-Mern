@@ -8,8 +8,11 @@ import {
   verifyToken,
 } from "../utils/jwt";
 import { AuthUser } from "../middleware/auth.middleware";
+import { RefreshToken } from "../entities/refreshToken";
+import config from "../config/env";
 
 const userRepository = AppDataSource.getRepository(User);
+const refreshTokenRepository = AppDataSource.getRepository(RefreshToken);
 
 interface RegisterRequestBody {
   email: string;
@@ -79,6 +82,21 @@ export const login = async (
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
+    // Delete all previous refresh tokens for this user
+    await refreshTokenRepository.delete({ user: { id: user.id } });
+
+    // Save new refresh token in DB
+    const expiresAt = new Date();
+    const expiryDays = parseInt(config.REFRESH_TOKEN_EXPIRY as string, 10);
+    expiresAt.setDate(expiresAt.getDate() + expiryDays);
+
+    const newRefreshToken = refreshTokenRepository.create({
+      token: refreshToken,
+      user,
+      expiresAt,
+    });
+    await refreshTokenRepository.save(newRefreshToken);
+
     res.cookie("accessToken", accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -96,7 +114,13 @@ export const login = async (
     return res.json({
       message: "Login successful",
       statusCode: 20000,
-      user: { id: user.id, email: user.email, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      },
     });
   } catch (err) {
     console.error(err);
@@ -136,15 +160,33 @@ export const refresh = async (req: Request, res: Response) => {
   }
 };
 
-// ✅ Logout
-export const logout = async (_req: Request, res: Response) => {
+// Auth controller: logout
+export const logout = async (req: any, res: Response) => {
   try {
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Delete all refresh tokens for this user
+    await refreshTokenRepository.delete({ user: { id: userId } });
+
+    // Clear cookies
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
 
     return res.json({ message: "Logged out successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("Logout error:", err);
     return res.status(500).json({ message: "Server error" });
   }
 };

@@ -9,7 +9,7 @@ const router: Router = Router();
 router.get(
   "/",
   authMiddleware,
-  authorizeRoles("admin", "manager"),
+  authorizeRoles("admin"),
   userController.getUsers
 );
 

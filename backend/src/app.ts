@@ -30,13 +30,14 @@ app.use(
 app.use(helmet());
 app.use(compression());
 app.use(morgan("dev"));
-app.use(cookieParser());
 
 // Rate limiting
-app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 1000 }));
+app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 10000 }));
 
 // Serve static files
 app.use(express.static("public"));
+
+app.use(cookieParser());
 
 // API routes
 app.use("/api/v1", routes);

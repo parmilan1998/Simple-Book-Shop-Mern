@@ -31,7 +31,13 @@ export const createBook = async (req: AuthRequest, res: Response) => {
     });
     await bookRepository.save(newBook);
 
-    return res.status(201).json(newBook);
+    return res.status(201).json({
+      ...newBook,
+      user: {
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ message: "Error creating book", error });
   }
@@ -92,8 +98,21 @@ export const deleteBook = async (req: AuthRequest, res: Response) => {
 // 📌 Get All Books (Any User)
 export const getBooks = async (_req: AuthRequest, res: Response) => {
   try {
-    const books = await bookRepository.find({ relations: ["user"] });
-    return res.status(200).json(books);
+    // Fetch books with user relation
+    const books = await bookRepository.find({
+      relations: ["user"],
+    });
+
+    // Remove password from user before sending response
+    const sanitizedBooks = books.map((book) => {
+      const { password, ...userWithoutPassword } = book.user || {};
+      return {
+        ...book,
+        user: userWithoutPassword,
+      };
+    });
+
+    return res.status(200).json(sanitizedBooks);
   } catch (error) {
     return res.status(500).json({ message: "Error fetching books", error });
   }
@@ -109,7 +128,16 @@ export const getBookById = async (req: AuthRequest, res: Response) => {
     });
 
     if (!book) return res.status(404).json({ message: "Book not found" });
-    return res.status(200).json(book);
+
+    const response = {
+      ...book,
+      user: {
+        email: book.user?.email,
+        role: book.user?.role,
+      },
+    };
+
+    return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json({ message: "Error fetching book", error });
   }
