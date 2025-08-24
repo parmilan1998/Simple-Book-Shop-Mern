@@ -5,3 +5,4 @@ Config.js
 .env.production
 dist
 src/env/.env.*
+dist

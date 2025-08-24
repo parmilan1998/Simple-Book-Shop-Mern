@@ -6,10 +6,24 @@ import {
   updateBook,
   deleteBook,
 } from "../controllers/book-controller";
+import authMiddleware from "../middleware/auth.middleware";
+import { authorizeRoles } from "../middleware/role.middleware";
 
-const bookRouter = Router();
+const bookRouter: Router = Router();
 
-bookRouter.route("/").get(getBooks).post(createBook);
-bookRouter.route("/:id").get(getBookById).put(updateBook).delete(deleteBook);
+// 📚 Public: all users can view
+bookRouter.route("/").get(getBooks);
+
+bookRouter.route("/:id").get(getBookById);
+
+// 🔒 Protected: only admin & manager can create, update, delete
+bookRouter
+  .route("/")
+  .post(authMiddleware, authorizeRoles("admin", "manager"), createBook);
+
+bookRouter
+  .route("/:id")
+  .put(authMiddleware, authorizeRoles("admin", "manager"), updateBook)
+  .delete(authMiddleware, authorizeRoles("admin", "manager"), deleteBook);
 
 export default bookRouter;
